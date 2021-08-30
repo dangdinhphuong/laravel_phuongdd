@@ -22,12 +22,15 @@ class User extends Authenticatable
         'password',
         'name',
         'phone',
-        'email',
+        "address",
+        'mail_address',
         'created_at',
         'updated_at',
         'deleted_at',
     ];
-
+    public function pageNumber(){
+        return 20;
+    }
     /**
      * The attributes that should be hidden for serialization.
      *

@@ -3,9 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Exception;
 use App\Models\User;
-use App\Models\Categories;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
+use App\Http\Requests\User\CreateUserRequest;
+use Illuminate\Support\Facades\Lang;
+
 class UserController extends Controller
 {
     private $user;
@@ -16,17 +20,37 @@ class UserController extends Controller
 
     public function index()
     {
-        // $users= Categories::all();
-        $users = User::create([
-            'name' => "phuong",
-            'mail_address' => "phuong@gmail.com",
-            'password' => Hash::make("dksjfkdsjf"),
-            'phone' => "0976594507",
-            'created_at' => "2005-11-11 22:29:41",
-            'updated_at' => "2005-11-11 22:29:41",
-            'deleted_at' => "2005-11-11 22:29:41",
-        ]);
-        dd($users);
-        return view('user');
+        $users = User::orderBy('mail_address', 'asc')->paginate($this->user->pageNumber());
+
+        return view('user', compact("users"));
+    }
+
+    public function create()
+    {
+        return view('CreateUser');
+    }
+    public function store(CreateUserRequest $request)
+    {
+        try {
+            DB::beginTransaction();
+            $this->user->create([
+                'name' => $request->name,
+                'mail_address' => $request->mail_address,
+                'address' => $request->address,
+                'password' => Hash::make($request->phone),
+                'phone' => $request->phone,
+                'created_at' => date("Y-m-d h:i:s"),
+                'updated_at' => date("Y-m-d h:i:s"),
+                'deleted_at' => date("Y-m-d h:i:s"),
+            ]);
+            DB::commit();
+
+            return redirect("/user")->with('status', 'Đăng ký thành công !');
+        }
+         catch (Exception $exception) {
+            DB::rollBack();
+
+            return redirect("/adduser")->with('status', 'Đăng ký thất bại !');
+        }
     }
 }

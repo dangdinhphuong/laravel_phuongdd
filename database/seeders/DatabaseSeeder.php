@@ -15,8 +15,8 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         Model::reguard();
-        // $this->call(CategoriesSeed::class);
-        // $this->call(ItemSeed::class);
+        $this->call(CategoriesSeed::class);
+        $this->call(ItemSeed::class);
         $this->call(UserSeed::class);
         Model::reguard();
     }
