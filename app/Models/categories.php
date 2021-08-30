@@ -9,6 +9,8 @@ class Categories extends Model
 {
     use HasFactory;
 
+
+    
     public function setItem()
     {
         return $this->hasMany(Items::class);

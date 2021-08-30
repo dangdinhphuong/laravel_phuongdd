@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Models\User;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,6 +14,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
+    $users= User::all();
+    dd($users);
     return view('welcome');
 });
 Route::get('/user', 'UserController@index')->name('user');
+// Route::get('/user', 'UserController@index')->name('user');

@@ -14,6 +14,7 @@ class UpdateItemsTable extends Migration
     public function up()
     {
         Schema::table('items', function (Blueprint $table) {
+            $table->unsignedInteger('softDelete')->default(0);
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
         });
     }
@@ -26,6 +27,7 @@ class UpdateItemsTable extends Migration
     public function down()
     {
         Schema::table('items', function (Blueprint $table) {
+            $table->unsignedInteger('softDelete')->default(0);
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
         });
     }
